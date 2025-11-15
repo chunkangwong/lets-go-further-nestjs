@@ -10,7 +10,7 @@ import {
 
 import { CreateMovieDto } from "./dto/createMovie.dto";
 import { MovieIdParam } from "./dto/movieIdParam.dto";
-import type { UpdateMovieDto } from "./dto/updateMovie.dto";
+import { UpdateMovieDto } from "./dto/updateMovie.dto";
 import { MoviesService } from "./movies.service";
 
 @Controller({

@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 import { SqlService } from "../sql.service";
 import { CreateMovieDto } from "./dto/createMovie.dto";
-import type { UpdateMovieDto } from "./dto/updateMovie.dto";
+import { UpdateMovieDto } from "./dto/updateMovie.dto";
 import type { Movie } from "./interfaces/Movie";
 
 @Injectable()
@@ -27,19 +27,36 @@ export class MoviesService {
     const [movie] = await this.sqlService.sql`
       SELECT * FROM movies WHERE id = ${id}
     `;
+    if (!movie) {
+      throw new NotFoundException("Movie not found");
+    }
     return movie;
   }
 
   async updateMovie(id: number, updateMovieDto: UpdateMovieDto) {
+    const movie = await this.getMovieById(id);
+    if (updateMovieDto.title) {
+      movie.title = updateMovieDto.title;
+    }
+    if (updateMovieDto.year) {
+      movie.year = updateMovieDto.year;
+    }
+    if (updateMovieDto.runtime) {
+      movie.runtime = updateMovieDto.runtime;
+    }
+    if (updateMovieDto.genres) {
+      movie.genres = updateMovieDto.genres;
+    }
     await this.sqlService.sql`
     		UPDATE movies
-        SET title = ${updateMovieDto.title}, year = ${updateMovieDto.year}, runtime = ${updateMovieDto.runtime}, genres = ${this.sqlService.sql.array(updateMovieDto.genres)}
+        SET title = ${movie.title}, year = ${movie.year}, runtime = ${movie.runtime}, genres = ${this.sqlService.sql.array(movie.genres)}
         WHERE id = ${id}
         RETURNING version
     `;
   }
 
   async deleteMovie(id: number) {
+    await this.getMovieById(id);
     await this.sqlService.sql`
       DELETE FROM movies WHERE id = ${id}
     `;
