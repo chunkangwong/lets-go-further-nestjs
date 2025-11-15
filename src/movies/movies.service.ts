@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
+
 import { SqlService } from "../sql.service";
-import type { Movie } from "./interfaces/Movie";
-import type { CreateMovieDto } from "./dto/createMovie.dto";
+import { CreateMovieDto } from "./dto/createMovie.dto";
 import type { UpdateMovieDto } from "./dto/updateMovie.dto";
+import type { Movie } from "./interfaces/Movie";
 
 @Injectable()
 export class MoviesService {
@@ -36,10 +37,11 @@ export class MoviesService {
         WHERE id = ${id}
         RETURNING version
     `;
-    return `Movie ${id} updated!`;
   }
 
-  deleteMovie(id: number): string {
-    return `Movie ${id} deleted!`;
+  async deleteMovie(id: number) {
+    await this.sqlService.sql`
+      DELETE FROM movies WHERE id = ${id}
+    `;
   }
 }

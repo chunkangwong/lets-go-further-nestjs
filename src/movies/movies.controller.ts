@@ -7,11 +7,16 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import type { CreateMovieDto } from "./dto/createMovie.dto";
+
+import { CreateMovieDto } from "./dto/createMovie.dto";
+import { MovieIdParam } from "./dto/movieIdParam.dto";
 import type { UpdateMovieDto } from "./dto/updateMovie.dto";
 import { MoviesService } from "./movies.service";
 
-@Controller("/v1/movies")
+@Controller({
+  path: "movies",
+  version: "1",
+})
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
@@ -26,17 +31,20 @@ export class MoviesController {
   }
 
   @Get(":id")
-  getMovieById(@Param("id") id: number) {
-    return this.moviesService.getMovieById(id);
+  getMovieById(@Param() params: MovieIdParam) {
+    return this.moviesService.getMovieById(Number(params.id));
   }
 
   @Patch(":id")
-  updateMovie(@Param("id") id: number, @Body() updateMovieDto: UpdateMovieDto) {
-    return this.moviesService.updateMovie(id, updateMovieDto);
+  updateMovie(
+    @Param("id") params: MovieIdParam,
+    @Body() updateMovieDto: UpdateMovieDto
+  ) {
+    return this.moviesService.updateMovie(Number(params.id), updateMovieDto);
   }
 
   @Delete(":id")
-  deleteMovie(@Param("id") id: number): string {
-    return this.moviesService.deleteMovie(id);
+  deleteMovie(@Param("id") params: MovieIdParam) {
+    return this.moviesService.deleteMovie(Number(params.id));
   }
 }
