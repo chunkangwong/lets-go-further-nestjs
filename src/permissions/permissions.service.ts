@@ -14,7 +14,7 @@ export class PermissionsService {
       INNER JOIN users ON users_permissions.user_id = users.id
       WHERE users.id = ${userId}
     `;
-    return permissions;
+    return permissions.map((permission) => permission.code);
   }
 
   async addForUser(userId: number, codes: string[]) {
