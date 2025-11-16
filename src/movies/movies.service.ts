@@ -16,15 +16,17 @@ export class MoviesService {
     return movies;
   }
 
-  async createMovie(createMovieDto: CreateMovieDto) {
-    await this.sqlService.sql`
+  async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
+    const [movie] = await this.sqlService.sql`
       INSERT INTO movies ${this.sqlService.sql({
         title: createMovieDto.title,
         year: createMovieDto.year,
         runtime: createMovieDto.runtime,
         genres: this.sqlService.sql.array(createMovieDto.genres, "TEXT"),
       })}
+      RETURNING *
     `;
+    return movie;
   }
 
   async getMovieById(id: number): Promise<Movie> {

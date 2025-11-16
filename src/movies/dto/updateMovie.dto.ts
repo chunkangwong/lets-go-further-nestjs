@@ -15,17 +15,17 @@ export class UpdateMovieDto {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsNumber()
   @IsPositive()
-  year: number;
+  year?: number;
 
   @IsOptional()
   @IsNumber()
   @IsPositive()
-  runtime: number;
+  runtime?: number;
 
   @IsOptional()
   @IsArray()
@@ -34,5 +34,5 @@ export class UpdateMovieDto {
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
   @ArrayUnique()
-  genres: string[];
+  genres?: string[];
 }
