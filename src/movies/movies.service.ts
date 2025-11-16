@@ -18,8 +18,12 @@ export class MoviesService {
 
   async createMovie(createMovieDto: CreateMovieDto) {
     await this.sqlService.sql`
-      INSERT INTO movies (title, year, runtime, genres)
-      VALUES (${createMovieDto.title}, ${createMovieDto.year}, ${createMovieDto.runtime}, ${this.sqlService.sql.array(createMovieDto.genres)})
+      INSERT INTO movies ${this.sqlService.sql({
+        title: createMovieDto.title,
+        year: createMovieDto.year,
+        runtime: createMovieDto.runtime,
+        genres: this.sqlService.sql.array(createMovieDto.genres, "TEXT"),
+      })}
     `;
   }
 
@@ -49,7 +53,7 @@ export class MoviesService {
     }
     await this.sqlService.sql`
     		UPDATE movies
-        SET title = ${movie.title}, year = ${movie.year}, runtime = ${movie.runtime}, genres = ${this.sqlService.sql.array(movie.genres)}
+        SET title = ${movie.title}, year = ${movie.year}, runtime = ${movie.runtime}, genres = ${this.sqlService.sql.array(movie.genres, "TEXT")}
         WHERE id = ${id}
         RETURNING version
     `;
