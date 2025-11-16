@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 
-import { SqlService } from "../sql.service";
+import { SqlService } from "../sql/sql.service";
 import { CreateMovieDto } from "./dto/createMovie.dto";
 import { UpdateMovieDto } from "./dto/updateMovie.dto";
 import type { Movie } from "./interfaces/Movie";

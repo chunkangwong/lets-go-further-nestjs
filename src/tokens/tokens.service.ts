@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import base32 from "hi-base32";
 
-import { SqlService } from "../sql.service";
+import { SqlService } from "../sql/sql.service";
 import { User } from "../users/interfaces/user";
 import { AuthenticateBodyDto } from "./dto/authenticateBody.dto";
 import { Token, TokenScope } from "./interfaces/token";

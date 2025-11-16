@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 import { PermissionsService } from "../permissions/permissions.service";
-import { SqlService } from "../sql.service";
+import { SqlService } from "../sql/sql.service";
 import { TokenScope } from "../tokens/interfaces/token";
 import { TokensService } from "../tokens/tokens.service";
 import { ActivateBodyDto } from "./dto/activateBody.dto";

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 
-import { SqlService } from "../sql.service";
+import { SqlService } from "../sql/sql.service";
 import { PermissionsService } from "./permissions.service";
 
 @Module({

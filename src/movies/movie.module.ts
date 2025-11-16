@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 
-import { SqlService } from "../sql.service";
+import { SqlService } from "../sql/sql.service";
 import { MoviesController } from "./movies.controller";
 import { MoviesService } from "./movies.service";
 
