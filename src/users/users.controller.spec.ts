@@ -2,6 +2,7 @@ import { BadRequestException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { PermissionsModule } from "../permissions/permissions.module";
+import { SqlModule } from "../sql/sql.module";
 import { SqlService } from "../sql/sql.service";
 import { TokensModule } from "../tokens/tokens.module";
 import { UsersController } from "./users.controller";
@@ -12,9 +13,9 @@ describe("UsersController", () => {
 
   beforeAll(async () => {
     usersModule = await Test.createTestingModule({
-      imports: [PermissionsModule, TokensModule],
+      imports: [PermissionsModule, TokensModule, SqlModule],
       controllers: [UsersController],
-      providers: [UsersService, SqlService],
+      providers: [UsersService],
     }).compile();
   });
 
@@ -44,6 +45,15 @@ describe("UsersController", () => {
           password: "test",
         })
       ).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe("activate", () => {
+    it("should activate the user", () => {
+      const usersController = usersModule.get(UsersController);
+      expect(
+        usersController.activate({ token: "hellohello" })
+      ).resolves.toHaveProperty("id");
     });
   });
 });

@@ -2,6 +2,7 @@ import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { SqlService } from "../sql/sql.service";
+import { SqlModule } from "../sql/sql.module";
 import { MoviesController } from "./movies.controller";
 import { MoviesService } from "./movies.service";
 
@@ -11,8 +12,9 @@ describe("MoviesController", () => {
 
   beforeAll(async () => {
     moviesModule = await Test.createTestingModule({
+      imports: [SqlModule],
       controllers: [MoviesController],
-      providers: [MoviesService, SqlService],
+      providers: [MoviesService],
     }).compile();
   });
 

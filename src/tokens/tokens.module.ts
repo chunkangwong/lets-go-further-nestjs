@@ -1,13 +1,13 @@
 import { Module } from "@nestjs/common";
 
-import { SqlService } from "../sql/sql.service";
+import { SqlModule } from "src/sql/sql.module";
 import { TokensController } from "./tokens.controller";
 import { TokensService } from "./tokens.service";
 
 @Module({
-  imports: [],
+  imports: [SqlModule],
   controllers: [TokensController],
-  providers: [TokensService, SqlService],
+  providers: [TokensService],
   exports: [TokensService],
 })
 export class TokensModule {}

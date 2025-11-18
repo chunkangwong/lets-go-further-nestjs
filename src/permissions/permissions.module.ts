@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 
-import { SqlService } from "../sql/sql.service";
+import { SqlModule } from "src/sql/sql.module";
 import { PermissionsService } from "./permissions.service";
 
 @Module({
-  imports: [],
+  imports: [SqlModule],
   controllers: [],
-  providers: [PermissionsService, SqlService],
+  providers: [PermissionsService],
   exports: [PermissionsService],
 })
 export class PermissionsModule {}
